@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ubirajara, de José de Alencar, e O Espelho, de Machado de Assis — trabalho de Literatura do 2º ano, EEEM São Carlos.">
+<meta name="color-scheme" content="light dark">
+<title>O Rio e o Vidro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Archivo:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#ECEEE9;
+  --ink:#16211C;
+  --muted:#5C6A63;
+  --line:#D2D8D0;
+  --card:#F6F7F4;
+  --rom:#A83E27;
+  --rea:#37565E;
+  --rom-solid:#8E3421;
+  --rea-solid:#2B474F;
+  --deep:#12201A;
+  --on-solid:#F2EFEA;
+  --display:"Bodoni Moda",Georgia,"Times New Roman",serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1614;
+    --ink:#E7EAE3;
+    --muted:#98A59D;
+    --line:#25322C;
+    --card:#16211C;
+    --rom:#DE7150;
+    --rea:#82A9B2;
+    --deep:#090F0C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1614;
+  --ink:#E7EAE3;
+  --muted:#98A59D;
+  --line:#25322C;
+  --card:#16211C;
+  --rom:#DE7150;
+  --rea:#82A9B2;
+  --deep:#090F0C;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+}
+.deck{position:relative;height:100dvh;overflow:hidden}
+
+/* ---------- HUD ---------- */
+.hud{
+  position:absolute;inset:0 0 auto 0;z-index:5;
+  display:flex;align-items:center;gap:1rem;
+  padding:clamp(.7rem,1.6vh,1.1rem) clamp(1.1rem,4vw,3.2rem);
+  font-size:clamp(10px,.85vw,12px);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);
+}
+.hud .mark{color:var(--ink);font-weight:600}
+.hud .who{margin-left:auto;font-variant-numeric:tabular-nums}
+.hud[data-solid="1"],.hud[data-solid="1"] .mark{color:rgba(242,239,234,.72)}
+.hud[data-solid="1"] .mark{color:#F2EFEA}
+
+.rail{position:absolute;left:0;right:0;bottom:0;height:2px;background:transparent;z-index:5}
+.rail i{display:block;height:100%;background:var(--accent,var(--ink));opacity:.55;transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* ---------- slides ---------- */
+.slide{
+  position:absolute;inset:0;
+  display:none;flex-direction:column;justify-content:center;
+  padding:clamp(3rem,8vh,5rem) clamp(1.2rem,5vw,4rem) clamp(2.4rem,6.5vh,3.6rem);
+  overflow-y:auto;
+}
+.slide.on{display:flex;animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .slide.on{animation:none}
+  .rail i{transition:none}
+}
+.wrap{width:100%;max-width:1180px;margin:0 auto}
+
+.eyebrow{
+  font-size:clamp(10px,.9vw,12.5px);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 .9rem;font-weight:600;
+}
+h1,h2{font-family:var(--display);font-weight:700;margin:0;text-wrap:balance;line-height:1.04}
+h1{font-size:clamp(2.6rem,6.4vw,5.4rem);letter-spacing:-.015em}
+h2{font-size:clamp(1.6rem,3.2vw,2.75rem);letter-spacing:-.01em}
+.dek{
+  font-size:clamp(.95rem,1.35vw,1.25rem);color:var(--muted);
+  margin:.85rem 0 0;max-width:62ch;line-height:1.5;
+}
+p{margin:0}
+
+/* ---------- capa ---------- */
+.cover .pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,2vw,1.4rem);margin-top:clamp(1.6rem,4vh,2.6rem)}
+.book{
+  border:1px solid var(--line);border-radius:2px;background:var(--card);
+  padding:clamp(1rem,2.2vw,1.6rem);
+}
+.book b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,2.6vw,2.1rem);line-height:1.1}
+.book span{display:block;margin-top:.45rem;font-size:clamp(.78rem,1vw,.95rem);color:var(--muted);letter-spacing:.02em}
+.book.rom b{color:var(--rom)} .book.rea b{color:var(--rea)}
+.crew{margin-top:clamp(1.4rem,4vh,2.4rem);border-top:1px solid var(--line);padding-top:1rem;
+  display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:clamp(.85rem,1.1vw,1.05rem)}
+.crew em{font-style:normal;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;font-size:.72em;align-self:center}
+
+/* ---------- divisória ---------- */
+.solid{color:var(--on-solid)}
+.solid.rom{background:var(--rom-solid)} .solid.rea{background:var(--rea-solid)}
+.solid.deep{background:var(--deep)}
+.solid .eyebrow{color:rgba(242,239,234,.62)}
+.solid h1{color:#fff}
+.solid .dek{color:rgba(242,239,234,.8)}
+
+/* ---------- listas de momentos ---------- */
+.beats{display:grid;gap:clamp(.55rem,1.5vh,1rem);margin-top:clamp(1.2rem,3.4vh,2rem)}
+.beat{display:grid;grid-template-columns:clamp(2.2rem,4vw,3.2rem) 1fr;gap:clamp(.65rem,1.5vw,1.1rem);align-items:start}
+.beat .n{
+  font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,3vw,2.4rem);
+  line-height:1;color:var(--accent);text-align:right;font-variant-numeric:lining-nums;
+}
+.beat h3{margin:0 0 .2rem;font-size:clamp(.95rem,1.42vw,1.18rem);font-weight:600;letter-spacing:-.005em}
+.beat p{font-size:clamp(.82rem,1.1vw,1rem);line-height:1.48;color:var(--muted);max-width:80ch}
+.beats.four{gap:clamp(.4rem,1.15vh,.8rem)}
+.beats.four .beat p{font-size:clamp(.78rem,1.02vw,.94rem);line-height:1.44}
+
+/* ---------- fichas ---------- */
+.facts{display:grid;gap:clamp(.5rem,1.4vh,.9rem);margin-top:clamp(1.5rem,4.2vh,2.4rem)}
+.fact{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.9fr);gap:clamp(.8rem,2vw,1.8rem);
+  align-items:baseline;border-top:1px solid var(--line);padding-top:clamp(.55rem,1.4vh,.9rem);
+}
+.fact b{font-size:clamp(.95rem,1.4vw,1.2rem);font-weight:600}
+.fact p{font-size:clamp(.85rem,1.15vw,1.02rem);line-height:1.5;color:var(--muted)}
+
+/* ---------- cards 2x2 ---------- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.6vw,1.1rem);margin-top:clamp(1.4rem,4vh,2.2rem)}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:clamp(.85rem,1.9vw,1.35rem)}
+.tile b{display:block;color:var(--accent);font-size:clamp(.92rem,1.35vw,1.15rem);font-weight:600;margin-bottom:.35rem}
+.tile p{font-size:clamp(.8rem,1.08vw,.98rem);line-height:1.5;color:var(--muted)}
+
+/* ---------- frente a frente ---------- */
+.versus{display:grid;grid-template-columns:1fr 1px 1fr;gap:0 clamp(1rem,3vw,2.4rem);margin-top:clamp(1.4rem,4vh,2.2rem)}
+.versus .spine{background:var(--muted);opacity:.4}
+.vhead{font-family:var(--display);font-weight:700;font-size:clamp(1.05rem,2vw,1.6rem);padding-bottom:.5rem;border-bottom:2px solid currentColor}
+.vhead.rom{color:var(--rom)} .vhead.rea{color:var(--rea)}
+.vcol ul{list-style:none;margin:0;padding:0}
+.vcol li{padding:clamp(.45rem,1.3vh,.8rem) 0;border-bottom:1px solid var(--line);
+  font-size:clamp(.82rem,1.12vw,1rem);line-height:1.45}
+.vcol li:last-child{border-bottom:0}
+
+/* ---------- conto ---------- */
+.tale{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(1.2rem,4vw,3rem);align-items:start;margin-top:clamp(1.4rem,4vh,2.2rem)}
+.tale .title{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.02}
+.tale .title i{display:block;font-family:var(--body);font-style:normal;font-weight:500;
+  font-size:clamp(.72rem,.95vw,.88rem);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.tale dl{margin:0;display:grid;gap:clamp(.5rem,1.4vh,.85rem)}
+.tale dt{font-size:clamp(.7rem,.9vw,.82rem);letter-spacing:.16em;text-transform:uppercase;color:var(--rom);font-weight:600}
+.tale dd{margin:.2rem 0 0;font-size:clamp(.85rem,1.15vw,1.03rem);line-height:1.5;color:var(--muted)}
+
+.quote{max-width:100%}
+.quote .line{font-family:var(--display);font-size:clamp(1.05rem,2.25vw,1.85rem);line-height:1.3;margin:0;max-width:36ch}
+.quote .line+.line{margin-top:.35rem}
+.quote .line.reply{font-style:italic;color:#F0BFAE}
+.after{margin-top:clamp(1.2rem,3.5vh,2.2rem);max-width:58ch;font-size:clamp(.85rem,1.15vw,1.02rem);
+  line-height:1.6;color:rgba(242,239,234,.78)}
+
+/* ---------- foto ---------- */
+.shot{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,2vw,1.4rem);margin-top:clamp(1.4rem,4vh,2.2rem)}
+.side{border:1px solid var(--line);border-radius:2px;padding:clamp(.9rem,2vw,1.4rem);background:var(--card)}
+.side b{display:block;font-size:clamp(.7rem,.9vw,.82rem);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.55rem}
+.side.rom b{color:var(--rom)} .side.rea b{color:var(--rea)}
+.side p{font-size:clamp(.82rem,1.12vw,1rem);line-height:1.52;color:var(--muted)}
+.caption{margin-top:clamp(.9rem,2.5vh,1.5rem);background:var(--deep);color:var(--on-solid);
+  border-radius:2px;padding:clamp(.9rem,2.2vw,1.4rem) clamp(1rem,2.6vw,1.8rem);
+  display:flex;gap:clamp(.7rem,2vw,1.6rem);align-items:center;flex-wrap:wrap}
+.caption span{font-size:clamp(.65rem,.85vw,.78rem);letter-spacing:.2em;text-transform:uppercase;color:rgba(242,239,234,.55)}
+.caption q{font-family:var(--display);font-style:italic;font-size:clamp(1rem,1.9vw,1.5rem)}
+
+/* ---------- final ---------- */
+.finale h1{font-size:clamp(2rem,5vw,4.2rem)}
+.finale h1+h1{color:#F0BFAE;margin-top:.15em}
+.finale .crew{border-color:rgba(242,239,234,.22);color:rgba(242,239,234,.75)}
+.finale .crew em{color:rgba(242,239,234,.5)}
+
+/* ---------- controles ---------- */
+.ctrl{position:absolute;z-index:6;bottom:clamp(.9rem,2.4vh,1.5rem);right:clamp(1.1rem,4vw,3.2rem);
+  display:flex;gap:.4rem;align-items:center}
+.ctrl button{
+  font:inherit;font-size:clamp(.72rem,.9vw,.85rem);letter-spacing:.1em;
+  background:transparent;color:inherit;border:1px solid currentColor;border-radius:2px;
+  width:2.2em;height:2.2em;line-height:1;cursor:pointer;opacity:.5;transition:opacity .2s;
+}
+.ctrl button:hover,.ctrl button:focus-visible{opacity:1}
+.ctrl button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.count{font-size:clamp(.7rem,.9vw,.82rem);letter-spacing:.14em;opacity:.55;font-variant-numeric:tabular-nums;margin-right:.5rem}
+.deck[data-solid="1"] .ctrl{color:var(--on-solid)}
+
+@media (max-width:760px){
+  .cover .pair,.grid2,.shot,.tale{grid-template-columns:1fr}
+  .versus{grid-template-columns:1fr;gap:1.4rem}
+  .versus .spine{display:none}
+  .fact{grid-template-columns:1fr;gap:.2rem}
+  .slide{justify-content:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <header class="hud" id="hud">
+    <span class="mark" id="hudMark">Entre o Ideal e o Real</span>
+    <span class="who" id="hudWho"></span>
+  </header>
+
+  <!-- 1 -->
+  <section class="slide cover" data-accent="rom" data-mark="Entre o Ideal e o Real" data-who="Gabriel">
+    <div class="wrap">
+      <p class="eyebrow">EEEM São Carlos · Literatura · 2º ano do Ensino Médio</p>
+      <h1>Entre o Ideal<br>e o Real</h1>
+      <div class="pair">
+        <div class="book rom"><b>Ubirajara</b><span>José de Alencar · 1874 · Romantismo</span></div>
+        <div class="book rea"><b>O Espelho</b><span>Machado de Assis · 1882 · Realismo</span></div>
+      </div>
+      <div class="crew">
+        <em>Grupo 2</em>
+        <span>Gabriel Mariotti</span><span>Enzo Malaggi</span><span>Isaque Arossi</span><span>Luis Chiamulera</span><span>Anthony Pietro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-accent="rom" data-mark="Abertura" data-who="Gabriel">
+    <div class="wrap">
+      <p class="eyebrow">Por que estes dois livros juntos</p>
+      <h2>Os dois contam a mesma cena</h2>
+      <p class="dek">Um homem recebe um nome novo e vira outra pessoa. A diferença está inteira no que acontece depois.</p>
+      <div class="beats">
+        <div class="beat" style="--accent:var(--rom)">
+          <div class="n">1</div>
+          <div><h3>Jaguarê vira Ubirajara</h3><p>Ele derrota o maior guerreiro inimigo e grita o próprio nome novo no instante da vitória. Para Alencar, o nome só confirma a grandeza que já estava lá dentro.</p></div>
+        </div>
+        <div class="beat" style="--accent:var(--rea)">
+          <div class="n">2</div>
+          <div><h3>Jacobina vira alferes</h3><p>Ele é nomeado para a Guarda Nacional e todos passam a tratá-lo por “senhor alferes”. Para Machado, o nome não revela nada: ele passa a ser a pessoa.</p></div>
+        </div>
+        <div class="beat" style="--accent:var(--ink)">
+          <div class="n">3</div>
+          <div><h3>O teste</h3><p>Tire as outras pessoas de cena. Ubirajara continua inteiro no meio da mata. Jacobina desaparece do próprio espelho.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide solid rom" data-accent="rom" data-solid="1" data-mark="Primeira obra" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">Primeira obra · Romantismo</p>
+      <h1>Ubirajara</h1>
+      <p class="dek">José de Alencar, 1874. Nove capítulos. O próprio autor não chama o livro de romance: chama de lenda tupi.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">Antes da história</p>
+      <h2>Três coisas para entender o livro</h2>
+      <div class="facts">
+        <div class="fact"><b>Não é romance histórico</b><p>Alencar avisa logo no início: é uma lenda, irmã de Iracema. Não aparece um único europeu na história — eles só são citados na última linha, como os que ainda vão chegar.</p></div>
+        <div class="fact"><b>O nome se conquista</b><p>Ninguém nasce com nome de guerreiro. E, antes de conquistá-lo, o jovem não pode se casar. É por isso que a história inteira começa com uma caçada.</p></div>
+        <div class="fact"><b>Duas nações inimigas</b><p>Os araguaias, de Jaguarê e do pai dele, Camacã. E os tocantins, de Itaquê, pai de Araci e de Pojucã. Guarde esses nomes: a história é o choque entre as duas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara · a história" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 1 de 4</p>
+      <h2>A caçada e o nome</h2>
+      <div class="beats" style="--accent:var(--rom)">
+        <div class="beat"><div class="n">1</div><div><h3>Ele sai da aldeia para achar um inimigo</h3><p>Jaguarê já é o melhor caçador dos araguaias, mas quer trocar a fama de caçador pela glória de guerreiro. Deixa para trás Jandira, a moça que já estava prometida a ele e que preparava a rede do casamento. Anda três dias sem achar adversário à altura.</p></div></div>
+        <div class="beat"><div class="n">2</div><div><h3>No caminho, encontra Araci</h3><p>Aparece uma caçadora da tribo inimiga. Ele a declara prisioneira, ela corre, e ele prega a faixa dela num tronco com uma flechada. Ela se apresenta: Araci, a estrela do dia, filha de Itaquê, chefe dos tocantins — e o convida a ir disputá-la na aldeia dela. Ele recusa: tem noiva esperando em casa.</p></div></div>
+        <div class="beat"><div class="n">3</div><div><h3>O duelo que lhe dá o nome</h3><p>Surge então Pojucã, o maior guerreiro tocantim. Lutam a noite inteira sem que nenhum vença e decidem no braço quem alcança primeiro a lança fincada no chão. Pojucã chega primeiro e vai matá-lo — mas a lança gira no ar e é ele quem recebe a ponta no peito. Na hora da vitória, Jaguarê grita: “Eu sou Ubirajara, o senhor da lança”. E leva o inimigo vivo, como prisioneiro.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara · a história" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 2 de 4</p>
+      <h2>A noiva que ele recusa</h2>
+      <div class="beats" style="--accent:var(--rom)">
+        <div class="beat"><div class="n">4</div><div><h3>A festa e o grande arco</h3><p>Na aldeia, a nação confirma o nome e o aclama chefe. Camacã, o pai, quer lhe entregar o grande arco dos araguaias. Ubirajara recusa ganhar de presente: joga o arco no meio do terreiro e desafia quem quiser disputá-lo. Ninguém se levanta — e só então ele o toma.</p></div></div>
+        <div class="beat"><div class="n">5</div><div><h3>Jandira acorda achando que é o dia do casamento</h3><p>Mas Ubirajara a evita e depois recusa na cara dela: ainda não chegou o dia em que ele escolhe uma esposa. Jandira canta para reconquistá-lo. Ele responde que a noite desceu na alma dele e só a estrela do dia pode devolver a alegria — ou seja, Araci.</p></div></div>
+        <div class="beat"><div class="n">6</div><div><h3>Ele entrega Jandira ao prisioneiro</h3><p>Pelo costume, o prisioneiro condenado recebe a moça mais bonita da aldeia. Ubirajara pega Jandira pelo pulso e a entrega a Pojucã com as palavras “recebe-a como esposa do túmulo”. Ela recusa, mesmo sabendo que recusar dá pena de morte — e é o próprio Pojucã quem manda que ela fuja.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara · a história" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 3 de 4</p>
+      <h2>O disfarce e o combate nupcial</h2>
+      <div class="beats" style="--accent:var(--rom)">
+        <div class="beat"><div class="n">7</div><div><h3>Ele vai à aldeia inimiga com nome falso</h3><p>Tira do cocar as penas que o identificariam como araguaia e se apresenta aos tocantins. A lei da hospitalidade proíbe perguntar o nome e a nação de um hóspede, então ele mesmo escolhe como quer ser chamado: “eu sou aquele que veio trazido pela luz do céu — chamem-me Jurandir”. Araci entende o recado na hora e não o entrega.</p></div></div>
+        <div class="beat"><div class="n">8</div><div><h3>Servo do amor — e Jandira reaparece</h3><p>Para merecer a filha do chefe, ele trabalha para Itaquê e encontra Araci escondido, durante os banhos no rio. Jandira o segue até lá e tenta matar Araci. Ubirajara amarra os pulsos dela e a entrega como escrava à rival. Araci desamarra e devolve a liberdade — e Jandira recusa a liberdade, mantendo os pulsos cruzados por vontade própria.</p></div></div>
+        <div class="beat"><div class="n">9</div><div><h3>As provas para casar</h3><p>No combate nupcial ele vence todos os pretendentes: luta de tacape, corrida carregando a figura da noiva untada de banha, e a prova da constância — enfia a mão num vaso cheio de formigas em jejum e canta enquanto elas ferroam; foi preciso quebrar o vaso para tirar a mão inchada. Só na porta da cabana ele revela quem é de verdade.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara · a história" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 4 de 4</p>
+      <h2>A guerra e a união dos arcos</h2>
+      <div class="beats four" style="--accent:var(--rom)">
+        <div class="beat"><div class="n">10</div><div><h3>Itaquê descobre quem é o hóspede</h3><p>Está hospedando o homem que matou o próprio filho. Mesmo assim respeita a hospitalidade: dá a ele um dia de prazo. Ubirajara sai da aldeia apagando o próprio rastro com os pés, volta e declara guerra ali no centro do terreiro. Depois liberta Pojucã, que ainda estava preso.</p></div></div>
+        <div class="beat"><div class="n">11</div><div><h3>Mas quem ataca é uma terceira tribo</h3><p>Os tapuias chegam para se vingar dos tocantins. Ubirajara recusa a aliança que eles oferecem: não quer roubar a vingança dos outros nem atacar o pai de Araci pelas costas.</p></div></div>
+        <div class="beat"><div class="n">12</div><div><h3>Itaquê fica cego e vence assim mesmo</h3><p>Um menino inimigo vaza os dois olhos dele com duas flechas. Cego, Itaquê agarra a cabeça do chefe tapuia e a parte em duas. Os tapuias são varridos — mas nenhum tocantim consegue mais vergar o grande arco da nação.</p></div></div>
+        <div class="beat"><div class="n">13</div><div><h3>Os dois arcos viram um só</h3><p>Guiado pela mão de Araci, Itaquê atravessa o campo e entrega o próprio arco a Ubirajara. Ele dispara os dois arcos, e a segunda flecha atravessa a primeira no ar. As hastes são amarradas juntas e nasce a nação dos Ubirajaras. Ele fica com Araci e também com Jandira, que Araci traz pela mão: uma como esposa do chefe tocantim, outra como esposa do chefe araguaia.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-accent="rom" data-mark="Ubirajara" data-who="Enzo">
+    <div class="wrap">
+      <p class="eyebrow">O que reparar</p>
+      <h2>As marcas do Romantismo</h2>
+      <div class="grid2" style="--accent:var(--rom)">
+        <div class="tile"><b>Herói sem falha nenhuma</b><p>Ubirajara não erra, não hesita, não sente medo nem inveja, e vence todas as provas que enfrenta. Não é um homem observado: é um modelo proposto ao leitor.</p></div>
+        <div class="tile"><b>Natureza como espelho</b><p>O rio, a mata e os bichos respondem às emoções. O herói é sempre medido pela natureza: mais rápido que a caça, mais firme que a árvore.</p></div>
+        <div class="tile"><b>Linguagem épica</b><p>Frases curtas e solenes, comparação a cada parágrafo, vocabulário tupi com notas do próprio Alencar no rodapé. O narrador não analisa o herói: celebra.</p></div>
+        <div class="tile"><b>O que o ideal cobra de Jandira</b><p>O livro apresenta como nobreza uma cena dura: a noiva rejeitada, oferecida a um prisioneiro e depois escrava da rival. A idealização não elimina a crueldade — ela a chama de honra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide solid rea" data-accent="rea" data-solid="1" data-mark="Segunda obra" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">Segunda obra · Realismo</p>
+      <h1>O Espelho</h1>
+      <p class="dek">Machado de Assis, 1882. Um conto curto, com um subtítulo enorme: “Esboço de uma nova teoria da alma humana”.</p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide" data-accent="rea" data-mark="O Espelho" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">Antes da história</p>
+      <h2>Três coisas para entender o conto</h2>
+      <div class="facts">
+        <div class="fact"><b>Quase tudo é conversa</b><p>A ação real cabe em poucos dias, e é contada de dentro de uma roda de conversa noturna entre quatro ou cinco homens.</p></div>
+        <div class="fact"><b>Alferes era posto de prestígio</b><p>A Guarda Nacional distribuía patentes. Ser alferes mudava o modo como a família, os vizinhos e os escravos tratavam a pessoa — e era isso que valia.</p></div>
+        <div class="fact"><b>O narrador é suspeito</b><p>Quem conta o caso é Jacobina, uma personagem, e Machado nunca garante que seja verdade. Ele conta e ninguém contesta: é aí que mora a ironia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-accent="rea" data-mark="O Espelho · a história" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 1 de 3</p>
+      <h2>A teoria da alma exterior</h2>
+      <div class="beats" style="--accent:var(--rea)">
+        <div class="beat"><div class="n">1</div><div><h3>Alta madrugada, discutindo metafísica</h3><p>Quatro ou cinco homens numa sala, cada um defendendo a própria ideia sobre a alma humana. Jacobina, que ficou calado a noite toda, de repente resolve falar — e avisa que não vai admitir interrupção.</p></div></div>
+        <div class="beat"><div class="n">2</div><div><h3>Cada pessoa tem duas almas</h3><p>Uma olha de dentro para fora, outra olha de fora para dentro. A segunda, a alma exterior, não está dentro de você: é o que o mundo te devolve. Pode ser um objeto, um cargo, outra pessoa, um grupo inteiro — e pode ser trocada várias vezes na vida.</p></div></div>
+        <div class="beat"><div class="n">3</div><div><h3>“E eu tenho uma prova”</h3><p>Em vez de argumentar, ele conta um caso da própria vida. É esse jeito de provar uma teoria com uma história pessoal que faz o conto inteiro funcionar — e que deixa o leitor sem saber onde acaba a teoria e onde começa a confissão.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide" data-accent="rea" data-mark="O Espelho · a história" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 2 de 3</p>
+      <h2>O alferes eliminou o homem</h2>
+      <div class="beats" style="--accent:var(--rea)">
+        <div class="beat"><div class="n">4</div><div><h3>Aos vinte e cinco anos, a nomeação</h3><p>Ele é nomeado alferes da Guarda Nacional. A família enlouquece de orgulho: era o primeiro cargo de prestígio que aparecia na casa, e a notícia corre para todos os parentes.</p></div></div>
+        <div class="beat"><div class="n">5</div><div><h3>Todo mundo passa a chamá-lo de “senhor alferes”</h3><p>Não é apelido de brincadeira: vira o nome dele. Em pouco tempo o antigo Jacobina desaparece, e sobra só a patente. É o próprio narrador que resume: o alferes eliminou o homem.</p></div></div>
+        <div class="beat"><div class="n">6</div><div><h3>A tia Marcolina e o espelho</h3><p>A tia o leva para a fazenda dela, longe, no interior, e o trata como um príncipe. Manda pôr no quarto dele um espelho enorme e antigo, o objeto mais valioso da casa. Os escravos o servem com mesuras. Ali ele é alferes o dia inteiro, para todo mundo.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide" data-accent="rea" data-mark="O Espelho · a história" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">A história · parte 3 de 3</p>
+      <h2>O que sobra quando ninguém olha</h2>
+      <div class="beats" style="--accent:var(--rea)">
+        <div class="beat"><div class="n">7</div><div><h3>A casa esvazia em dois dias</h3><p>A tia parte às pressas porque a filha adoeceu. Na madrugada seguinte, os escravos fogem todos, levando o que conseguem carregar. Ele fica absolutamente sozinho numa fazenda enorme, sem ninguém para servi-lo e, principalmente, sem ninguém para chamá-lo de alferes.</p></div></div>
+        <div class="beat"><div class="n">8</div><div><h3>Ele começa a se apagar</h3><p>O silêncio, o relógio, o eco dos próprios passos. Ele se olha no grande espelho e a imagem vem vaga, difusa, esfumaçada — como um desenho a que faltassem as linhas de fora. Não é medo do escuro: é não se achar no vidro.</p></div></div>
+        <div class="beat"><div class="n">9</div><div><h3>A farda devolve a imagem</h3><p>Ele veste o uniforme completo e se planta diante do espelho: a figura volta inteira e nítida. Passa a repetir isso algumas horas por dia até chegar socorro. Termina de contar o caso — e ninguém na sala responde nada.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide" data-accent="rea" data-mark="O Espelho" data-who="Isaque">
+    <div class="wrap">
+      <p class="eyebrow">O que reparar</p>
+      <h2>As marcas do Realismo</h2>
+      <div class="grid2" style="--accent:var(--rea)">
+        <div class="tile"><b>Narrador que desconfia</b><p>Machado analisa em vez de exaltar. Quase nada é declarado: tudo é sugerido, e quem tira a conclusão é o leitor.</p></div>
+        <div class="tile"><b>Ironia e humor seco</b><p>A situação é trágica e o texto é engraçado. Rir do personagem faz parte da crítica, não atrapalha.</p></div>
+        <div class="tile"><b>Crítica social direta</b><p>O valor da pessoa vem da patente. E são os escravos em fuga que desmontam o alferes: a grandeza dele era feita da submissão forçada dos outros.</p></div>
+        <div class="tile"><b>Final em aberto</b><p>Sozinho, o herói romântico se revelaria. Aqui ele apaga. Onde o Romantismo poria uma alma, Machado põe uma farda pendurada — e não explica mais nada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide" data-accent="ink" data-mark="O contraponto" data-who="Luis">
+    <div class="wrap">
+      <p class="eyebrow">Frente a frente</p>
+      <h2>A mesma pergunta, respostas opostas</h2>
+      <div class="versus">
+        <div class="vcol">
+          <div class="vhead rom">Ubirajara</div>
+          <ul>
+            <li>Ele grita o próprio nome no instante em que vence.</li>
+            <li>Sozinho na mata, continua inteiro.</li>
+            <li>A natureza participa e confirma quem ele é.</li>
+            <li>O narrador celebra o herói do começo ao fim.</li>
+            <li>Termina com dois povos virando um só.</li>
+          </ul>
+        </div>
+        <div class="spine"></div>
+        <div class="vcol">
+          <div class="vhead rea">O Espelho</div>
+          <ul>
+            <li>O nome dele é dado por uma nomeação de papel.</li>
+            <li>Sozinho na fazenda, some do próprio espelho.</li>
+            <li>Sobra um vidro, que devolve a imagem pela metade.</li>
+            <li>O narrador desconfia até de si mesmo.</li>
+            <li>Termina em silêncio: ninguém responde nada.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide" data-accent="rom" data-mark="Mini-conto" data-who="Anthony">
+    <div class="wrap">
+      <p class="eyebrow">Etapa escrita do trabalho</p>
+      <div class="tale">
+        <div class="title"><i>O mini-conto do encontro</i>O rio e o vidro</div>
+        <dl>
+          <dt>Onde</dt><dd>No ponto em que a mata acaba e começa a fazenda vazia da tia Marcolina, à beira de um rio, no fim da tarde.</dd>
+          <dt>O choque</dt><dd>Ubirajara pergunta o nome do outro. Jacobina responde “alferes”. O guerreiro devolve: isso é o que os outros dizem de você — eu perguntei o seu nome.</dd>
+          <dt>As duas vozes</dt><dd>Ubirajara é narrado em terceira pessoa, solene e lírica. Jacobina narra a si mesmo em primeira pessoa, irônico e desconfiado.</dd>
+          <dt>Os objetos</dt><dd>A lança, de Ubirajara. O espelho e a farda de alferes, de Machado. São os mesmos que aparecem na fotografia conceitual.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide solid deep" data-accent="rom" data-solid="1" data-mark="Mini-conto" data-who="Anthony">
+    <div class="wrap">
+      <p class="eyebrow">Trecho</p>
+      <div class="quote">
+        <p class="line">— Qual é o teu nome? — perguntou o guerreiro.</p>
+        <p class="line">— Alferes — respondi.</p>
+        <p class="line reply">— Isso é o que os outros dizem de ti. Eu perguntei o teu nome.</p>
+      </div>
+      <p class="after">Mais adiante os dois se debruçam sobre a água. O rio devolve o guerreiro inteiro, do cocar aos pés, e ainda lhe acrescenta o céu por cima; devolve a Jacobina um borrão com dois olhos. Ubirajara lhe oferece a lança. Jacobina recusa, volta para dentro da casa, veste a farda e se planta diante do espelho — onde a imagem, enfim, aparece completa.</p>
+    </div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide" data-accent="ink" data-mark="Fotografia" data-who="Luis e Anthony">
+    <div class="wrap">
+      <p class="eyebrow">Etapa visual do trabalho</p>
+      <h2>A fotografia conceitual</h2>
+      <div class="shot">
+        <div class="side rom">
+          <b>Lado romântico</b>
+          <p>Ubirajara com a lança, pintura corporal em traços geométricos, pés descalços, postura ereta e olhar no horizonte. Fundo de mata, luz quente de fim de tarde, tons de terra. Ele aparece inteiro, fora do espelho.</p>
+        </div>
+        <div class="side rea">
+          <b>Lado realista</b>
+          <p>Jacobina de farda improvisada, botões dourados, postura rígida, olhando o próprio reflexo em vez do outro. Fundo de parede lisa, luz fria e dura. No espelho, a farda sai nítida e o rosto, não.</p>
+        </div>
+      </div>
+      <div class="caption">
+        <span>Legenda</span>
+        <q>O rio devolve um homem inteiro; o espelho devolve apenas a farda.</q>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide solid deep finale" data-accent="rom" data-solid="1" data-mark="Fim">
+    <div class="wrap">
+      <h1>Um se reconhece no rio.</h1>
+      <h1>O outro precisa de vidro, moldura e farda.</h1>
+      <div class="crew">
+        <em>Grupo 2</em>
+        <span>Gabriel Mariotti</span><span>Enzo Malaggi</span><span>Isaque Arossi</span><span>Luis Chiamulera</span><span>Anthony Pietro</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="ctrl">
+    <span class="count" id="count"></span>
+    <button id="prev" aria-label="Slide anterior">‹</button>
+    <button id="next" aria-label="Próximo slide">›</button>
+  </div>
+  <div class="rail"><i id="rail"></i></div>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var deck = document.getElementById('deck');
+  var hud = document.getElementById('hud');
+  var mark = document.getElementById('hudMark');
+  var who = document.getElementById('hudWho');
+  var count = document.getElementById('count');
+  var rail = document.getElementById('rail');
+  var i = 0;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    var s = slides[i];
+    var solid = s.getAttribute('data-solid') === '1';
+    deck.setAttribute('data-solid', solid ? '1' : '0');
+    hud.setAttribute('data-solid', solid ? '1' : '0');
+    mark.textContent = s.getAttribute('data-mark') || '';
+    var speaker = s.getAttribute('data-who');
+    who.textContent = speaker ? 'fala: ' + speaker : '';
+    count.textContent = pad(i + 1) + ' / ' + pad(slides.length);
+    var acc = s.getAttribute('data-accent');
+    rail.style.background = acc === 'rom' ? 'var(--rom)' : acc === 'rea' ? 'var(--rea)' : 'var(--ink)';
+    rail.style.width = ((i + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  document.getElementById('next').addEventListener('click', function () { show(i + 1); });
+  document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(slides.length - 1); }
+  });
+
+  var x0 = null;
+  deck.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  deck.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+    x0 = null;
+  }, { passive: true });
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  show(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>
