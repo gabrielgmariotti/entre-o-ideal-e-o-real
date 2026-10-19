@@ -6,6 +6,10 @@ Apresentação do trabalho de Literatura do 2º ano — **EEEM São Carlos**.
 
 São 20 slides que contam a história dos dois livros do começo ao fim, comparam as duas escolas e apresentam o mini-conto "O rio e o vidro", escrito pelo grupo.
 
+![Fotografia conceitual do Grupo 2: à esquerda, três integrantes caracterizados como guerreiros indígenas na mata; à direita, dois em farda militar e terno do século XIX, num salão com espelho de moldura dourada](foto-conceitual.webp)
+
+*O rio devolve um homem inteiro; o espelho devolve apenas a farda.*
+
 ## Integrantes
 
 Gabriel Mariotti · Enzo Malaggi · Isaque Arossi · Luis Chiamulera · Anthony Pietro

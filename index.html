@@ -175,6 +175,16 @@ p{margin:0}
 .after{margin-top:clamp(1.2rem,3.5vh,2.2rem);max-width:58ch;font-size:clamp(.85rem,1.15vw,1.02rem);
   line-height:1.6;color:rgba(242,239,234,.78)}
 
+/* ---------- foto conceitual ---------- */
+.photo{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:clamp(.9rem,2.4vw,1.8rem);margin-top:clamp(1rem,2.8vh,1.6rem);align-items:start}
+.photo figure{margin:0}
+.photo img{display:block;width:100%;height:auto;max-height:62vh;object-fit:contain;
+  border:1px solid var(--line);border-radius:2px;background:var(--card)}
+.photo figcaption{margin-top:.5rem;font-size:clamp(.68rem,.88vw,.8rem);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+.photo .read{display:grid;gap:clamp(.5rem,1.3vh,.8rem)}
+
 /* ---------- foto ---------- */
 .shot{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,2vw,1.4rem);margin-top:clamp(1.4rem,4vh,2.2rem)}
 .side{border:1px solid var(--line);border-radius:2px;padding:clamp(.9rem,2vw,1.4rem);background:var(--card)}
@@ -188,6 +198,13 @@ p{margin:0}
 .caption q{font-family:var(--display);font-style:italic;font-size:clamp(1rem,1.9vw,1.5rem)}
 
 /* ---------- final ---------- */
+.finale.solid.deep{
+  background-image:
+    linear-gradient(100deg,rgba(9,15,12,.95) 0%,rgba(9,15,12,.88) 42%,rgba(9,15,12,.58) 72%,rgba(9,15,12,.5) 100%),
+    url("foto-conceitual.webp");
+  background-size:cover,cover;background-position:center,center 32%;background-repeat:no-repeat,no-repeat;
+}
+.finale .wrap>*{text-shadow:0 1px 14px rgba(9,15,12,.75)}
 .finale h1{font-size:clamp(2rem,5vw,4.2rem)}
 .finale h1+h1{color:#F0BFAE;margin-top:.15em}
 .finale .crew{border-color:rgba(242,239,234,.22);color:rgba(242,239,234,.75)}
@@ -207,7 +224,8 @@ p{margin:0}
 .deck[data-solid="1"] .ctrl{color:var(--on-solid)}
 
 @media (max-width:760px){
-  .cover .pair,.grid2,.shot,.tale{grid-template-columns:1fr}
+  .cover .pair,.grid2,.shot,.tale,.photo{grid-template-columns:1fr}
+  .photo img{max-height:44vh}
   .versus{grid-template-columns:1fr;gap:1.4rem}
   .versus .spine{display:none}
   .fact{grid-template-columns:1fr;gap:.2rem}
@@ -490,19 +508,26 @@ p{margin:0}
     <div class="wrap">
       <p class="eyebrow">Etapa visual do trabalho</p>
       <h2>A fotografia conceitual</h2>
-      <div class="shot">
-        <div class="side rom">
-          <b>Lado romântico</b>
-          <p>Ubirajara com a lança, pintura corporal em traços geométricos, pés descalços, postura ereta e olhar no horizonte. Fundo de mata, luz quente de fim de tarde, tons de terra. Ele aparece inteiro, fora do espelho.</p>
+      <div class="photo">
+        <figure>
+          <img src="foto-conceitual.webp" width="1448" height="1086" loading="lazy" decoding="async"
+               alt="Cinco integrantes do grupo lado a lado. À esquerda, três caracterizados como guerreiros indígenas, com lança, arco, cocar de penas e pintura corporal, dentro da mata iluminada pelo sol. À direita, dois em trajes do século XIX — um de farda militar azul com dragonas douradas e espada, outro de terno escuro com colete e bengala — num salão de cortina vermelha, candelabro aceso e um grande espelho de moldura dourada ao fundo.">
+          <figcaption>Grupo 2 · caracterização e fotografia do próprio grupo</figcaption>
+        </figure>
+        <div class="read">
+          <div class="side rom">
+            <b>Lado romântico</b>
+            <p>Lança, arco, cocar e pintura corporal, pés no chão da mata. Luz quente de sol filtrado, verde e tons de terra. Eles aparecem inteiros, ao ar livre — nenhum precisa de espelho.</p>
+          </div>
+          <div class="side rea">
+            <b>Lado realista</b>
+            <p>Farda de dragonas e terno de colete, postura rígida, salão fechado. Luz de vela, cortina pesada e, ao fundo, o espelho de moldura dourada: o objeto de que o personagem de Machado depende.</p>
+          </div>
+          <div class="caption">
+            <span>Legenda</span>
+            <q>O rio devolve um homem inteiro; o espelho devolve apenas a farda.</q>
+          </div>
         </div>
-        <div class="side rea">
-          <b>Lado realista</b>
-          <p>Jacobina de farda improvisada, botões dourados, postura rígida, olhando o próprio reflexo em vez do outro. Fundo de parede lisa, luz fria e dura. No espelho, a farda sai nítida e o rosto, não.</p>
-        </div>
-      </div>
-      <div class="caption">
-        <span>Legenda</span>
-        <q>O rio devolve um homem inteiro; o espelho devolve apenas a farda.</q>
       </div>
     </div>
   </section>
